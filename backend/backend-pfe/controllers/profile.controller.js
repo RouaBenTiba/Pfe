@@ -48,9 +48,35 @@ const DeleteProfile = async (req, res) => {
     res.status(404).json(error.message);
   }
 };
+const UpdateProfile = async (req, res) => {
+  const { name, email, phone, residence, photo, password, repeat_password } =
+    req.body;
+  try {
+    const profile = await profileModel.findOne({ user: req.user.id });
+    if (!profile) {
+      res.status(404).json({ message: "Profile not found" });
+    } else {
+      profile.name = name ?? profile.name;
+      profile.email = email ?? profile.email;
+      profile.phone = phone ?? profile.phone;
+      profile.residence = residence ?? profile.residence;
+      profile.photo = photo ?? profile.photo;
+      profile.password = password ?? profile.password;
+      profile.repeat_password = repeat_password ?? profile.repeat_password;
+
+      await profile.save();
+      res
+        .status(200)
+        .json({ message: "Profile updated successfully", profile });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports = {
   FindAllProfiles,
   FindOneProfile,
   DeleteProfile,
   AddProfile,
+  UpdateProfile,
 };

@@ -14,10 +14,10 @@ const ProfileSchema = new Schema({
   email: {
     type: String,
   },
-  tel: {
+  phone: {
     type: String,
   },
-  country: {
+  residence: {
     type: String,
   },
   photo: {

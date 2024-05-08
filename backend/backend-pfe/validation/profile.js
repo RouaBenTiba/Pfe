@@ -6,9 +6,10 @@ const profileValidation = Joi.object({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net", "fr"] },
   }),
-  tel: Joi.string().required(),
+  photo: Joi.string().uri().optional(),
   password: Joi.string().required(),
-  country: Joi.string(),
+  residence: Joi.string(),
+  repeat_password: Joi.ref("password"),
 }).with("password", "repeat_password");
 module.exports.validation = {
   profileValidation,

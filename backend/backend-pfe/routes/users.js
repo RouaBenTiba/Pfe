@@ -77,6 +77,12 @@ router.delete(
   inRole(Roles.ADMIN),
   DeleteProfile
 );
+router.put(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  UpdateProfile
+);
+
 //nodemailer
 router.post("/mail", passport.authenticate("jwt", { session: false }), Send);
 //Congé

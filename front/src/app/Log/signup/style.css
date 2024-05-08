@@ -1,0 +1,55 @@
+/* LoginForm.module.css */
+
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400");
+
+.container {
+  text-align: center;
+  background: transparent;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.452);
+  width: 600px;
+  height: 650px;
+}
+
+.box h4 {
+  font-family: "Source Sans Pro", sans-serif;
+  color: #6e5f46;
+  font-size: 20px;
+}
+
+.box h5 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 13px;
+  color: #a1a4ad;
+  letter-spacing: 1.5px;
+  margin-top: -15px;
+  margin-bottom: 50px;
+}
+
+.box a {
+  color: #6e5f46;
+  text-decoration: none;
+}
+
+.box .btn1 {
+  border: 0;
+  background: #000000;
+  color: #f8f8fa;
+  border-radius: 7px;
+  width: 250px;
+  height: 49px;
+  font-size: 16px;
+  transition: 0.3s;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.box .btn1:hover {
+  background: #5e513cbb;
+}
+
+.box .forgetpass {
+  position: relative;
+  float: right;
+  right: 28px;
+}

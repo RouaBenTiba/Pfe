@@ -1,0 +1,41 @@
+.vacation-page {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.vacation-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ant-modal-body p {
+  margin-bottom: 10px;
+}
+
+.ant-picker {
+  width: 100%;
+}
+
+.ant-select {
+  width: 100%;
+}
+
+.vacation-page .ant-table {
+  margin-top: 20px;
+}
+
+.vacation-page .ant-modal-footer {
+  border-top: none;
+  padding-top: 0;
+}
+.status-en attente {
+  color: #fadb14;
+}
+
+.status-acceptée {
+  color: #52c41a;
+}
+
+.status-refusée {
+  color: #f5222d;
+}
