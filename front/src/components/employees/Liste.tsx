@@ -20,7 +20,7 @@ import {
 } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 
-type InputRef = React.MutableRefObject<Input>;
+/*type InputRef = React.MutableRefObject<Input>;
 
 interface DataType {
   key: string;
@@ -283,6 +283,61 @@ const App: React.FC = () => {
         </Form>
       </Modal>
     </>
+  );
+};
+
+export default App;*/
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+
+const fetchEmployees = async () => {
+  const { data } = await axios.get("http://localhost:6000/api/employees");
+  return data;
+};
+
+const deleteEmployee = async (id: string) => {
+  const response = await axios.delete(
+    `http://localhost:6000/api/deleteEmployee/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${session?.user!.token}`, // Assurez-vous que la session est gérée correctement
+      },
+    }
+  );
+  return response.data;
+};
+
+const App: React.FC = () => {
+  const queryClient = useQueryClient();
+  const { data: employees, isLoading } = useQuery({
+    queryKey: ["employee"],
+    queryFn: fetchEmployees,
+  });
+  const { mutate: deleteEmployeeMutation } = useMutation(deleteEmployee, {
+    onSuccess: () => {
+      // Requérir à nouveau les employés après la suppression réussie
+      queryClient.invalidateQueries(["employees"]);
+    },
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  return (
+    <Table
+      dataSource={employees}
+      columns={[
+        // Colonnes de la table
+        {
+          title: "Delete",
+          render: (_, record) => (
+            <Button onClick={() => deleteEmployeeMutation(record.key)}>
+              Delete
+            </Button>
+          ),
+        },
+      ]}
+    />
   );
 };
 

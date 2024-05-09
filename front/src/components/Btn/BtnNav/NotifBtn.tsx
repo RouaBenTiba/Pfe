@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, notification, Space } from "antd";
 import { BellOutlined } from "@ant-design/icons";
+const { io } = require("socket.io-client");
 
 const close = () => {
   console.log(
@@ -10,7 +11,14 @@ const close = () => {
 
 const App: React.FC = () => {
   const [api, contextHolder] = notification.useNotification();
-
+  useEffect(() => {
+    const socket = io("http://localhost:6000/api/send ");
+    console.log(
+      socket.on("firstEvent", (msg: any) => {
+        console.log(msg);
+      })
+    );
+  }, []);
   const openNotification = () => {
     const key = `open${Date.now()}`;
     const btn = (

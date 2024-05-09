@@ -4,6 +4,8 @@ const {
   Login,
   Test,
   Admin,
+  GetAllEmployees,
+  DeleteEmployee,
 } = require("../controllers/users.controllers");
 var router = express.Router();
 const passport = require("passport");
@@ -45,14 +47,19 @@ const {
 //authetifier route
 router.post("/register", Register);
 router.post("/login", Login);
-/*test route */
 router.get(
-  "/test",
+  "/employees",
   passport.authenticate("jwt", { session: false }),
   inRole(Roles.ADMIN),
-  Test
+  GetAllEmployees
 );
-router.get("/admin", passport.authenticate("jwt", { session: false }), Admin);
+router.delete(
+  "/employee/:id",
+  passport.authenticate("jwt", { session: false }),
+  inRole(Roles.ADMIN),
+  DeleteEmployee
+);
+
 /*profile route*/
 router.post(
   "/profiles",
