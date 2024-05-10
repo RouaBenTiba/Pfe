@@ -1,6 +1,13 @@
 const { nodeMailer } = require("../lib/nodemailer");
 const Notification = require("../models/notifModel");
+const { Server } = require("socket.io");
 
+io.on("connection", (socket) => {
+  console.log("User connected: " + socket.id);
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
 const sendNotification = async (req, res) => {
   const { user, message } = req.body;
   try {
