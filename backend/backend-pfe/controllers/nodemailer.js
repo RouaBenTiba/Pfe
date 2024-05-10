@@ -8,3 +8,19 @@ const Send = async (req, res) => {
 module.exports = {
   Send,
 };
+const { Server } = require("socket.io");
+
+const io = new Server({
+  cors: {
+    origin: "http://localhost:6000",
+  },
+});
+
+io.on("connection", (socket) => {
+  io.emit("firstname", "hello this is test!");
+  socket.on("disconnect", () => {
+    console.log("someone has left");
+  });
+});
+
+io.listen(6000);
