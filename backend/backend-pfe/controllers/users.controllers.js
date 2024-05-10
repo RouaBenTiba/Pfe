@@ -67,16 +67,36 @@ const Login = async (req, res) => {
     res.status(500).send("error");
   }
 };
-const Test = (req, res) => {
-  res.send("welcome user");
+const GetAllEmployees = async (req, res) => {
+  try {
+    const employees = await employéModel.find().select("-password"); // Exclure le mot de passe des données renvoyées
+    res.status(200).json(employees);
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de la récupération des employés",
+      error: error.message,
+    });
+  }
 };
-const Admin = (req, res) => {
-  res.send("welcome Admin");
+const DeleteEmployee = async (req, res) => {
+  try {
+    const { id } = req.params; // L'ID de l'employé à supprimer
+    const deleted = await employéModel.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({ message: "Employé non trouvé" });
+    }
+    res.status(200).json({ message: "Employé supprimé avec succès" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de la suppression de l'employé",
+      error: error.message,
+    });
+  }
 };
 
 module.exports = {
   Register,
   Login,
-  Test,
-  Admin,
+  GetAllEmployees,
+  DeleteEmployee,
 };

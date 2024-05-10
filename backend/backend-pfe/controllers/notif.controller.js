@@ -2,20 +2,18 @@ const { nodeMailer } = require("../lib/nodemailer");
 const Notification = require("../models/notifModel");
 
 const sendNotification = async (req, res) => {
+  const { user, message } = req.body;
   try {
-    const { user, message } = req.body;
-
-    // Envoyer la notification par e-mail
-
     const emailSubject = "Nouvelle notification";
     const HTMLemail = `<p>${message}</p>`;
     await nodeMailer(user, emailSubject, HTMLemail);
-
-    res.status(200).json("email envoyé");
+    io.emit("notification", { message: "Vérifiez votre e-mail" }); // Émettre un événement de notification à tous les clients connectés
+    res.status(200).send("Email envoyé et notification émise.");
   } catch (error) {
-    res.status(500).json({
-      error: "Une erreur s'est produite lors de l'envoi de la notification.",
-    });
+    console.error("Error sending notification:", error);
+    res
+      .status(500)
+      .send("Une erreur s'est produite lors de l'envoi de l'email.");
   }
 };
 
