@@ -8,7 +8,7 @@ const Send = async (req, res) => {
 module.exports = {
   Send,
 };
-const { Server } = require("socket.io");
+/*const { Server } = require("socket.io");
 
 const io = new Server({
   cors: {
@@ -23,4 +23,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(6000);
+io.listen(6000);*/

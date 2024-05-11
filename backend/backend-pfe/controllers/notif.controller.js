@@ -1,13 +1,20 @@
 const { nodeMailer } = require("../lib/nodemailer");
 const Notification = require("../models/notifModel");
-const { Server } = require("socket.io");
+//const { Server } = require("socket.io");
+//const http = require("http");
+//const express = require("express");
+//const app = express();
+
+//const server = http.createServer(app);
+
+/*const io = new Server(server);
 
 io.on("connection", (socket) => {
   console.log("User connected: " + socket.id);
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
-});
+});*/
 const sendNotification = async (req, res) => {
   const { user, message } = req.body;
   try {

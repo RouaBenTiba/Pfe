@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 /*import React, { useEffect } from "react";
-=======
-import React, { useEffect } from "react";
->>>>>>> origin/master
+
 import { Button, notification, Space } from "antd";
 import { BellOutlined } from "@ant-design/icons";
 const { io } = require("socket.io-client");

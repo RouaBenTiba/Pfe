@@ -1,13 +1,16 @@
-/*import React, { useState } from "react";
+"use client";
+import React, { LegacyRef, useCallback, useRef, useState } from "react";
 import { Button, Drawer, Layout, message } from "antd";
 import { SmileOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import Webcam from "react-webcam";
+import axios from "axios";
 
 const PointerPage: React.FC = () => {
+  const webcamRef: LegacyRef<Webcam> | null = useRef(null);
   const [open, setOpen] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [endTime, setEndTime] = useState<number | null>(null);
-
   const showDrawer = () => {
     setOpen(true);
   };
@@ -16,9 +19,49 @@ const PointerPage: React.FC = () => {
     setOpen(false);
   };
 
+  const [screenShot, setScreenShot] = useState<string | Blob>("");
+  const facialRecognitionRequest = async () => {
+    try {
+      // alert("sending request to flask");
+      const res = await fetch(screenShot);
+      const blob = await res.blob();
+      const file = new File([blob], "filename.jpeg", { type: "image/jpeg" });
+      // const file = new File([screenShot], "filename.jpeg", {
+      //   type: "image/jpeg",
+      // });
+
+      const form = new FormData();
+      form.append("file", file);
+      const response = await axios.post(
+        "http://127.0.0.1:5000/api/facial-recognition",
+        form
+      );
+      console.log(response);
+      setIsCapturing(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const capture = useCallback(() => {
+    const imageSrc = webcamRef.current ? webcamRef.current.getScreenshot() : "";
+    setScreenShot(imageSrc ? imageSrc : "");
+    console.log(imageSrc);
+  }, [webcamRef]);
+  const getScreenShot = () => {
+    capture();
+    facialRecognitionRequest();
+  };
+  const [isCapturing, setIsCapturing] = useState<boolean>(false);
   const startTimer = () => {
     setTimerRunning(true);
     setStartTime(Date.now()); // Enregistrer l'heure de début
+    const randomTime = Math.floor(Math.random() * 10000) + 1000; // 1000 to 10000 milliseconds
+    setTimeout(() => {
+      setIsCapturing(true);
+    }, randomTime - 1000);
+    setTimeout(() => {
+      getScreenShot();
+    }, randomTime);
   };
 
   const stopTimer = () => {
@@ -70,6 +113,14 @@ const PointerPage: React.FC = () => {
           fontSize: 20,
         }}
       >
+        {isCapturing && (
+          <Webcam
+            audio={false}
+            videoConstraints={{ width: 920, height: 480, facingMode: "user" }}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+          />
+        )}
         <Button
           type="primary"
           onClick={timerRunning ? stopTimer : startTimer}
@@ -102,8 +153,8 @@ const PointerPage: React.FC = () => {
   );
 };
 
-export default PointerPage;*/
-import React, { useState } from "react";
+export default PointerPage;
+/*import React, { useState } from "react";
 import { Button, Drawer, message } from "antd";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import axios from "axios"; // Assurez-vous d'importer axios
@@ -213,4 +264,4 @@ const PointerPage: React.FC = () => {
   );
 };
 
-export default PointerPage;
+export default PointerPage;*/
